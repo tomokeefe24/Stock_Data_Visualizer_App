@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>this is the title</title>
+
+</head>
+
+<body>
+    <h1>Stock Data Visualizer</h1>
+    <form method="post">
+        
+        <label for="symbol">Choose Symbol</label>
+        <select name="symbol" value="{{ request.form[title] }}">
+            <option value="none">Select</option>
+            {% for symbol in symbols %}
+                <option value="{{symbol}}">{{symbol}}</option>
+            {% endfor %}
+            
+          </select>
+          <br>
+            
+        <label for="chartType">Choose Chart Type</label>
+        <select name="chartType" value="{{ request.form[chartType] }}">
+            <option value="none">Select</option>
+            <option value="1">1. Bar</option>
+            <option value="2">2. Line</option>
+        </select>
+        <br>
+
+
+        <label for="timeSeries">Choose Time Series</label>
+        <select name="timeSeries" value="{{ request.form[timeSeries] }}">
+            <option value="POOP">Select</option>
+            <option value="1">1. Intraday</option>
+            <option value="2">2. Daily</option>
+            <option value="3">3. Weekly</option>
+            <option value="4">4. Monthly</option>
+          </select>
+          <br>
+          
+          <label for="startDate">Start Date</label>
+          <input value="{{ request.form[startDate] }}" type="date" value="2017-06-01" name="startDate" />
+          <br>
+
+
+          <label for="endDate">End Date</label>
+          <input type="date" value="2017-06-01" name="endDate" value="{{ request.form[endDate] }}"/>
+          <br>
+
+          <button type="submit">Submit</button>
+
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p background>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if chart %}
+        <div class="chart">
+            <embed type="image/svg+xml" src={{chart.render_data_uri()|safe}} width="800" height="800" />
+        </div>
+    {% endif %}
+
+</body>
+</html>
